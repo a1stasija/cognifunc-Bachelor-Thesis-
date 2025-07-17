@@ -1,0 +1,40 @@
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+
+        <h2 class="mb-4">Flanker test</h2>
+
+        <div *ngIf="showInstructions">
+            <p class="lead mb-4">
+                Videćete 5 strelica - obratite pažnju samo na srednju strelicu.
+                Ako vidite ← u sredini, pritisnite levo crveno dugme, a ako vidite →, pritisnite desno crveno dugme.
+                Ovaj zadatak će se ponoviti više puta. Da biste započeli test kliknite plavo dugme. 
+                <br /><br />
+                Na primer:<br />
+            <p style="font-size: 2rem; letter-spacing: 1rem;">→ → ← → →</p>
+
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <button class="btn btn-danger px-5" style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" data-bs-toggle="tooltip" title="Tačno"> </button>
+                <button class="btn btn-danger px-5" style="height: 60px; width: 150px;" data-bs-toggle="tooltip" title="Netačno"></button>
+            </div>
+
+            <button class="btn btn-primary btn-lg" (click)="startTest()">Započni test</button>
+        </div>
+
+        <div *ngIf="!showInstructions" style="margin-top: 100px;">
+            <div *ngIf="!testEnded" class="mb-4" style="font-size: 100px;">
+                <span *ngFor="let s of stimulus">  {{s === 'left' ? '\u2190' : '\u2192' }} </span>
+            </div>
+
+            <div *ngIf="!testEnded" class="d-flex justify-content-between" style="margin-top: 100px;">
+                <button class="btn btn-danger btn-lg px-5" style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" (click)="answer('left')"> </button>
+                <button class="btn btn-danger btn-lg px-5" style="height: 60px; width: 150px;" (click)="answer('right')"> </button>
+            </div>
+            
+            <div *ngIf="testEnded" class="alert alert-info mt-4">
+               Hvala Vam na izdvojenom vremenu!
+            <button class="btn btn-primary btn-lg " (click)="goBack()"> Nazad</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div *ngIf="showInstructions" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Vizuelni test pretrage</h2>
+
+        <p class="lead mb-4">
+            U svakoj iteraciji videćete više figura u mreži. Vaš zadatak je da što brže kliknete na
+            <strong>crveno slovo T koje je uspravno</strong>.<br />
+            Ostale figure (plave ili rotirane) služe kao distraktori.<br />
+            Ukoliko ne vidite uspravno crveno slovo T kliknite desnim klikom bilo gde na ekranu.<br /><br />
+            Kliknite na plavo dugme ispod da započnete test.
+        </p>
+
+        <!-- Prikaz primera (opciono: slike) -->
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <img src="assets/red_normal_T.png" width="35" height="35" alt="Meta" title="Tačno">
+            <img src="assets/red_rotated_T.png" width="35" height="35" alt="Distraktor" title="Netačno">
+            <img src="assets/blue_normal_T.png" width="35" height="35" alt="Distraktor" title="Netačno">
+        </div>
+
+        <button class="btn btn-primary btn-lg" (click)="startTest()">Započni test</button>
+    </div>
+</div>
+
+
+<!-- 👇 Test -->
+<div *ngIf="!showInstructions && !testEnded" class="test-grid" (contextmenu)="handleRightClick($event)">
+    <div *ngFor="let item of items" class="grid-cell" (click)="item.isVisible && handleClick(item)">
+        <img *ngIf="item.isVisible" [src]="getImagePath(item)" alt="T" class="stimulus-img" />
+    </div>
+</div>
+
+
+<div *ngIf="!showInstructions && testEnded" class="test-grid-container">
+    <div class="test-grid">
+        <div *ngFor="let item of items" class="grid-cell" (click)="item.isVisible && handleClick(item)">
+            <img *ngIf="item.isVisible" [src]="getImagePath(item)" alt="T" class="stimulus-img" />
+        </div>
+    </div>
+</div>
