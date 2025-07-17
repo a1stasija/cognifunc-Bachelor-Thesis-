@@ -30,10 +30,14 @@
 </div>
 
 
-<div *ngIf="!showInstructions && testEnded" class="test-grid-container">
-    <div class="test-grid">
-        <div *ngFor="let item of items" class="grid-cell" (click)="item.isVisible && handleClick(item)">
-            <img *ngIf="item.isVisible" [src]="getImagePath(item)" alt="T" class="stimulus-img" />
-        </div>
+
+<div *ngIf="!showInstructions && testEnded" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Vizuelni test pretrage</h2>
+
+        <p class="lead mb-4">
+            Hvala Vam na izdvojenom vremenu!<br /><br />
+            <button class="btn btn-primary btn-lg " (click)="goBack()"> Nazad</button>
+        </p>
     </div>
 </div>

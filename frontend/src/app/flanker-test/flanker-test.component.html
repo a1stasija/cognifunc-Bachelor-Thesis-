@@ -30,8 +30,8 @@
                 <button class="btn btn-danger btn-lg px-5" style="height: 60px; width: 150px;" (click)="answer('right')"> </button>
             </div>
             
-            <div *ngIf="testEnded" class="alert alert-info mt-4">
-               Hvala Vam na izdvojenom vremenu!
+            <div *ngIf="testEnded">
+                <p class="lead mb-4">Hvala Vam na izdvojenom vremenu!<br/><br/></p>
             <button class="btn btn-primary btn-lg " (click)="goBack()"> Nazad</button>
             </div>
 

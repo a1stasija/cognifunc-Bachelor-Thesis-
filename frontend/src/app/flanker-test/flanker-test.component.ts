@@ -50,7 +50,7 @@ export class FlankerTestComponent implements OnInit{
     this.reactionTime = responseGivenAt - this.stimulusShownAt;
     const isCorrect = direction === this.correctAnswer;
 
-    if (this.trialIndex == 3) {
+    if (this.trialIndex == 30) {
       this.testEnded = true;
     }
 

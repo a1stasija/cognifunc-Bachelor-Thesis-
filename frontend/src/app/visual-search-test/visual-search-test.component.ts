@@ -95,6 +95,7 @@ export class VisualSearchTestComponent implements OnInit {
 
     if (this.trialIndex == 30) {
       this.testEnded = true;
+      return
     } else {
       this.noTarget = false;
       this.trialIndex++;
@@ -137,6 +138,11 @@ export class VisualSearchTestComponent implements OnInit {
     if (item.color === 'red' && item.orientation === 'semi-rotated-right') return 'assets/red_semirotatedR_T.png';
     if (item.color === 'blue' && item.orientation === 'normal') return 'assets/blue_normal_T.png';
     return 'assets/blue_T_rotated.png';
+  }
+
+  goBack() {
+    localStorage.removeItem('test');
+    this.router.navigate(['/']);
   }
 
 }
