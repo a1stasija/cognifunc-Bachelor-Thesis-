@@ -11,12 +11,11 @@ export class VisualSearchDataTransferService {
 
   constructor(private http: HttpClient) {}
 
-  sendMouseData(iteration: number, isCorrect: boolean,isControl: boolean, reactionTime: number, events: ReadingMouseData[], sessionId: string ): Observable<any> {
+  sendMouseData(iteration: number, isCorrect: boolean,isControl: boolean, events: ReadingMouseData[], sessionId: string ): Observable<any> {
     const payload = {
       iteration,
       isCorrect,
       isControl,
-      reactionTime,
       events,
       sessionId
     };

@@ -1,10 +1,10 @@
-<div class="container vh-100 d-flex justify-content-center align-items-center">
+<div class="container vh-100 d-flex justify-content-center align-items-center" *ngIf = "serbian">
   <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
 
     <h2 class="mb-4">Saglasnost za učešće u istraživanju</h2>
 
     <p class="text-start">
-      Pozvani ste da učestvujete u istraživanju u okviru diplomskog rada na Elektrotehničkom fakultetu u Beogradu,  koje ima za cilj da ispita kognitivne veštine kroz interakciju sa jednostavnim zadacima na računaru.
+      Pozvani ste da učestvujete u istraživanju u okviru diplomskog rada pod nazivom "Realizacija mernog sistema za ispitivanje pažnje i inhibicije" na Elektrotehničkom fakultetu u Beogradu pod mentorstvom prof. dr Nadice Miljković,  koje ima za cilj da ispita kognitivne veštine kroz interakciju sa jednostavnim zadacima na računaru.
       Tokom testiranja, aplikacija će beležiti <strong>pokrete vašeg miša</strong>, <strong>klikove</strong> i <strong>vreme reakcije</strong>, u cilju analize strategija rešavanja i pažnje.
     </p>
     <p class="text-start">
@@ -16,11 +16,40 @@
     </p>
 
     <div class="d-flex justify-content-center gap-4 mt-4">
-      <button class="btn btn-success btn-lg px-4" (click)="startTest()">
+      <button class="btn btn-success btn-lg px-4" (click)="startTest($event)">
         Slažem se i želim da nastavim
       </button>
       <button class="btn btn-secondary btn-lg px-4" (click)="goBack()">
         Nazad
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="container vh-100 d-flex justify-content-center align-items-center" *ngIf = "!serbian">
+  <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+
+    <h2 class="mb-4">Informed Consent for Participation in Research</h2>
+
+    <p class="text-start">
+      You are invited to participate in a research study conducted as part of the bachelor’s thesis entitled “Implementation of a Measurement System for Examining Attention and Inhibition” at the School of Electrical Engineering, University of Belgrade, under the supervision of Prof. Dr. Nadica Miljković. The aim of the study is to examine cognitive skills through interaction with simple computer tasks.
+During the testing, the application will record your <strong>mouse movements</strong>, <strong>clicks</strong>, and <strong>reaction times</strong>, for the purpose of analyzing problem-solving strategies and attention.
+    </p>
+    <p class="text-start">
+      Participation is <strong>voluntary</strong>, and you may withdraw at any time without any consequences. 
+      The collected data are <strong>anonymous</strong> and will be used solely for academic and research purposes, as part of the bachelor’s thesis in the field of psychology and computer science.
+    </p>
+    <p class="text-start">
+     By participating, you confirm that you are informed about the purpose of the study, understand the conditions, and agree to take part in the test.
+    </p>
+
+    <div class="d-flex justify-content-center gap-4 mt-4">
+      <button class="btn btn-success btn-lg px-4" (click)="startTest($event)">
+       I agree and wish to continue
+      </button>
+      <button class="btn btn-secondary btn-lg px-4" (click)="goBack()">
+       Go back
       </button>
     </div>
 

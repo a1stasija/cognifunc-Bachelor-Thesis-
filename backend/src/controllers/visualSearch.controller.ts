@@ -3,13 +3,13 @@ import VisualSearchData from '../models/visualSearch'
 
 export class VisualSearchController {
     submit = (req: express.Request, res: express.Response) => {
-        const { sessionId, iteration, isCorrect, isControl, reactionTime, events } = req.body;
+        const { sessionId, iteration, isCorrect, isControl, events } = req.body;
 
-        if (!sessionId || !iteration || !reactionTime || !events) {
-            res.status(400).json({ error: 'Missing required fields' });
+        if (!sessionId || !events) {
+            return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        VisualSearchData.create({ sessionId, iteration, isCorrect, isControl, reactionTime, events })
+        VisualSearchData.create({ sessionId, iteration, isCorrect, isControl, events })
             .then(() => {
                 res.status(200).json({ message: 'OK' });
             })

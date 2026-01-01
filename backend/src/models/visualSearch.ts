@@ -13,7 +13,6 @@ let VisualSearchData = new Schema({
   iteration: {type: Number, required: true},
   isCorrect: { type: Boolean, required: true},
   isControl: {type: Boolean, required:true},
-  reactionTime: {type: Number, required:true},
   timestamp: { type: Date, default: Date.now },
   events: [readingEventSchema]
 })

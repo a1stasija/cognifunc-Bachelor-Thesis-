@@ -1,40 +1,93 @@
-<div class="container vh-100 d-flex justify-content-center align-items-center">
+<div *ngIf="showInstructions && serbian" class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
-
         <h2 class="mb-4">Flanker test</h2>
 
-        <div *ngIf="showInstructions">
-            <p class="lead mb-4">
-                Videćete 5 strelica - obratite pažnju samo na srednju strelicu.
-                Ako vidite ← u sredini, pritisnite levo crveno dugme, a ako vidite →, pritisnite desno crveno dugme.
-                Ovaj zadatak će se ponoviti više puta. Da biste započeli test kliknite plavo dugme. 
+        <p class="lead mb-4">
+             Videćete 7 strelica - obratite pažnju samo na <strong>srednju strelicu</strong>.
+                Ako vidite &lt; u sredini, što brže pritisnite levo crveno dugme, a ako vidite >, što brže pritisnite desno crveno dugme.
+                Ovaj zadatak će se ponoviti više puta. Da biste započeli test kliknite plavo dugme.
                 <br /><br />
                 Na primer:<br />
-            <p style="font-size: 2rem; letter-spacing: 1rem;">→ → ← → →</p>
+            <p style="font-size: 2rem; letter-spacing: 1rem;">> > > &lt; > > ></p>
 
             <div class="d-flex justify-content-center gap-4 mb-4">
-                <button class="btn btn-danger px-5" style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" data-bs-toggle="tooltip" title="Tačno"> </button>
-                <button class="btn btn-danger px-5" style="height: 60px; width: 150px;" data-bs-toggle="tooltip" title="Netačno"></button>
+                <button class="btn btn-danger px-5"
+                    style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" data-bs-toggle="tooltip"
+                    title="Tačno"> </button>
+                <button class="btn btn-danger px-5" style="height: 60px; width: 150px;" data-bs-toggle="tooltip"
+                    title="Netačno"></button>
             </div>
 
-            <button class="btn btn-primary btn-lg" (click)="startTest()">Započni test</button>
-        </div>
+            <button class="btn btn-primary btn-lg" (click)="startTest($event)">Započni test</button>
+    </div>
+</div>
+<div *ngIf="showInstructions && !serbian" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Flanker test</h2>
 
-        <div *ngIf="!showInstructions" style="margin-top: 100px;">
-            <div *ngIf="!testEnded" class="mb-4" style="font-size: 100px;">
-                <span *ngFor="let s of stimulus">  {{s === 'left' ? '\u2190' : '\u2192' }} </span>
+        <p class="lead mb-4">
+             You will see 7 arrows – focus only on the middle arrow.
+If you see < in the middle, press the left red button as fast as you can, and if you see >, press the right red button as fast as you can.
+This task will be repeated several times. To start the test, click the blue button.
+                <br /><br />
+                For example:<br />
+            <p style="font-size: 2rem; letter-spacing: 1rem;">> > > &lt; > > ></p>
+
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <button class="btn btn-danger px-5"
+                    style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" data-bs-toggle="tooltip"
+                    title="Correct"> </button>
+                <button class="btn btn-danger px-5" style="height: 60px; width: 150px;" data-bs-toggle="tooltip"
+                    title="Incorrect"></button>
             </div>
 
-            <div *ngIf="!testEnded" class="d-flex justify-content-between" style="margin-top: 100px;">
-                <button class="btn btn-danger btn-lg px-5" style="height: 60px; width: 150px; padding-left: 0; padding-right: 3rem;" (click)="answer('left')"> </button>
-                <button class="btn btn-danger btn-lg px-5" style="height: 60px; width: 150px;" (click)="answer('right')"> </button>
+            <button class="btn btn-primary btn-lg" (click)="startTest($event)">Begin</button>
+    </div>
+</div>
+<div *ngIf="!showInstructions && !testEnded" class="position-relative vh-100 d-flex flex-column justify-content-center align-items-center">
+
+    <!-- Strelice tačno u centru ekrana -->
+       <div class="mb-4" style="font-size: 150px;  user-select: none;">
+                <span *ngFor="let s of stimulus"> {{s === 'left' ? '<' :  '>' }} </span>
             </div>
-            
-            <div *ngIf="testEnded">
-                <p class="lead mb-4">Hvala Vam na izdvojenom vremenu!<br/><br/></p>
+
+    <br/><br/>
+
+    <!-- Dugmad fiksirana ispod strelica, ali sa pomakom -->
+    <div class="d-flex justify-content-center mt-5 position-relative" style="width: 100%; max-width: 1000px;">
+      <button class="btn btn-danger btn-lg px-5 position-absolute" style="height: 60px; width: 150px; left: 10%;" (click)="answer('left')"></button>
+      <button class="btn btn-danger btn-lg px-5 position-absolute" style="height: 60px; width: 150px; right: 10%;" (click)="answer('right')"></button>
+    </div>
+</div>
+
+<div *ngIf="!showInstructions && testEnded && serbian" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Flanker test</h2>
+
+        <p class="lead mb-4">
+           Hvala na izdvojenom vremenu!
+Cilj zadatka je bio da se ispita kako ljudi obraćaju pažnju na relevantne detalje, dok u isto vreme ignorišu ometajuće informacije koje mogu da zbune ili uspore reakciju. Ovakvi zadaci koriste se u psihologiji pažnje da bi se ispitalo kako ljudi usmeravaju fokus i koliko im je teško da ignorišu nebitne informacije.
+
+Ono što možda niste znali jeste da se ovakvi testovi ne koriste samo u laboratorijama, već i u primenjenim oblastima, na primer u ispitivanju vozača, pilota i ljudi koji rade poslove gde svaka sekunda odlučuje.
+
+Tokom zadatka merilo se Vaše vreme reagovanja, način na koji ste pomerali miš i brzina kojom ste prepoznavali cilj. Sve te informacije zajedno pomažu istraživačima da bolje razumeju kako se odvijaju procesi pažnje i odlučivanja.<br /><br />
             <button class="btn btn-primary btn-lg " (click)="goBack()"> Nazad</button>
-            </div>
+        </p>
+    </div>
+</div>
 
-        </div>
+<div *ngIf="!showInstructions && testEnded && !serbian" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Flanker test</h2>
+
+        <p class="lead mb-4">
+        Thank you for your time!
+The aim of the task was to examine how people pay attention to relevant details while at the same time ignoring distracting information that may confuse them or slow down their reactions. Such tasks are used in the psychology of attention to study how people direct their focus and how difficult it is for them to ignore irrelevant information.
+
+What you may not know is that these tests are not used only in laboratories, but also in applied fields—for example, in the assessment of drivers, pilots, and people working in jobs where every second matters.
+
+During the task, your reaction time, the way you moved the mouse, and the speed with which you recognized the target were measured. All of this information together helps researchers better understand how attentional and decision-making processes unfold.<br /><br />
+            <button class="btn btn-primary btn-lg " (click)="goBack()"> Go back</button>
+        </p>
     </div>
 </div>

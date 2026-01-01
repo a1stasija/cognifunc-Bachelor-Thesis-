@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FlankerTestDataTransferService } from './flanker-test-data-transfer.service';
-import { HttpClient } from '@angular/common/http';
 import { ReadingMouseData } from '../models/ReadingMouseData';
 
 @Injectable({
@@ -12,57 +11,79 @@ export class FlankerTestMouseDataService {
   private tracking = false;
   private iter = 0;
   private isCorrect = false;
-  private reactionTime = 0 ;
+  private isCongruent = false;
+  private mouseX: number = 0;
+  private mouseY: number = 0;
+  private intervalId: any = null;
 
-  constructor(private transferService: FlankerTestDataTransferService) { }
+  constructor(private transferService: FlankerTestDataTransferService) {}
 
-  private track = (e: MouseEvent) => {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    this.data.push({
-      x,
-      y,
-      stamp: Date.now()
-    });
-
+  private pointerHandler = (e: PointerEvent) => {
+    this.mouseX = e.clientX;
+    this.mouseY = e.clientY;
   };
 
-  startTracking(i:number) {
-    this.clear();
-    if (!this.tracking) {
-      document.addEventListener('mousemove', this.track);
-      this.tracking = true;
-      this.iter = i;
-    }
-   }
-  stopTracking(res : boolean, rt : number) {
-    if (this.tracking) {
-      document.removeEventListener('mousemove', this.track);
-      this.tracking = false;
-      const movements = [...this.data]; // kopija da ne gubimo referencu
-      const sessionId = localStorage.getItem('sessionId');
-      this.isCorrect = res;
-      this.reactionTime = rt;
-
-      if (!sessionId) {
-        console.error('[MouseTracker] Nema sessionId u localStorage!');
-        return;
-      }
-
-
-      this.transferService.sendMouseData(this.iter, this.isCorrect, this.reactionTime, movements, sessionId).subscribe({
-        next: () => console.log(`[MouseTracker] Podaci poslati za flanker test, iteraciju: ${this.iter}`),
-        error: (err) => console.error('[MouseTracker] Greška pri slanju:', err)
-      });
-
-    }
-   }
-  clear() { 
+  clear() {
     this.data = [];
     this.iter = 0;
     this.isCorrect = false;
-    this.reactionTime = 0;
-    //this.tracking = false;
+    this.isCongruent = false;
   }
+
+  startTracking(i: number, startX: number, startY: number) {
+    this.clear();
+
+    this.mouseX = startX;
+    this.mouseY = startY;
+
+    if (!this.tracking) {
+      this.tracking = true;
+      this.iter = i;
+
+      // Praćenje pozicije pokazivača
+      document.addEventListener('pointermove', this.pointerHandler, { passive: true });
+
+      // Uzorkovanje svakih 10ms
+      this.intervalId = setInterval(() => {
+        this.data.push({
+          x: this.mouseX,
+          y: this.mouseY,
+          stamp: performance.now()
+        });
+      }, 10);
+    }
+  }
+  
+
+  stopTracking(res: boolean, cong: boolean) {
+    if (this.tracking) {
+      this.tracking = false;
+
+      document.removeEventListener('pointermove', this.pointerHandler);
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+
+      const movements = [...this.data];
+      const sessionId = localStorage.getItem('sessionId');
+      this.isCorrect = res;
+      this.isCongruent = cong;
+
+      if (!sessionId) {
+        console.error('Nema sessionId u localStorage!');
+        return;
+      }
+
+      this.transferService.sendMouseData(
+        this.iter,
+        this.isCorrect,
+        this.isCongruent,
+        movements,
+        sessionId
+      ).subscribe({
+        next: () => console.log(`Podaci poslati za flanker test, iteraciju: ${this.iter}`),
+        error: (err) => console.error('Greška pri slanju:', err)
+      });
+    }
+  }
+
 }

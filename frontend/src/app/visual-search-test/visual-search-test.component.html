@@ -1,13 +1,35 @@
-<div *ngIf="showInstructions" class="container vh-100 d-flex justify-content-center align-items-center">
+<div *ngIf="showInstructions && serbian" class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
         <h2 class="mb-4">Vizuelni test pretrage</h2>
 
         <p class="lead mb-4">
             U svakoj iteraciji videćete više figura u mreži. Vaš zadatak je da što brže kliknete na
             <strong>crveno slovo T koje je uspravno</strong>.<br />
-            Ostale figure (plave ili rotirane) služe kao distraktori.<br />
+            Ostale figure (plave ili rotirane) služe kao ometači.<br />
             Ukoliko ne vidite uspravno crveno slovo T kliknite desnim klikom bilo gde na ekranu.<br /><br />
             Kliknite na plavo dugme ispod da započnete test.
+        </p>
+
+        <!-- Prikaz primera (opciono: slike) -->
+        <div class="d-flex justify-content-center gap-3 mb-4" style="user-select: none;">
+            <img src="assets/red_normal_T.png" width="35" height="35" alt="Meta" title="Tačno">
+            <img src="assets/red_rotated_T.png" width="35" height="35" alt="Distraktor" title="Netačno">
+            <img src="assets/blue_normal_T.png" width="35" height="35" alt="Distraktor" title="Netačno">
+        </div>
+
+        <button class="btn btn-primary btn-lg" (click)="startTest($event)">Započni test</button>
+    </div>
+</div>
+
+<div *ngIf="showInstructions && !serbian" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Visual search test</h2>
+
+        <p class="lead mb-4">
+           In each iteration, you will see multiple figures in a grid. Your task is to click as quickly as possible on the <strong>upright red letter T</strong>.<br />
+The other figures (blue or rotated) serve as distractors.<br />
+If you do not see an upright red letter T, right-click anywhere on the screen.<br /><br />
+Click the blue button below to start the test.
         </p>
 
         <!-- Prikaz primera (opciono: slike) -->
@@ -17,9 +39,10 @@
             <img src="assets/blue_normal_T.png" width="35" height="35" alt="Distraktor" title="Netačno">
         </div>
 
-        <button class="btn btn-primary btn-lg" (click)="startTest()">Započni test</button>
+        <button class="btn btn-primary btn-lg" (click)="startTest($event)">Započni test</button>
     </div>
 </div>
+
 
 
 <!-- 👇 Test -->
@@ -31,13 +54,34 @@
 
 
 
-<div *ngIf="!showInstructions && testEnded" class="container vh-100 d-flex justify-content-center align-items-center">
+<div *ngIf="!showInstructions && testEnded && serbian" class="container vh-100 d-flex justify-content-center align-items-center">
     <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
         <h2 class="mb-4">Vizuelni test pretrage</h2>
 
         <p class="lead mb-4">
-            Hvala Vam na izdvojenom vremenu!<br /><br />
+                      Hvala na izdvojenom vremenu!
+U zadatku koji ste upravo završili tražilo se da pronađete cilj i na njega reagujete, dok su oko njega postojale smetnje. Ovakvi zadaci koriste se u psihologiji pažnje da bi se ispitalo kako ljudi usmeravaju fokus i koliko im je teško da ignorišu nebitne informacije.
+
+Ono što možda niste znali jeste da se ovakvi testovi ne koriste samo u laboratorijama, već i u primenjenim oblastima, na primer u ispitivanju vozača, pilota i ljudi koji rade poslove gde svaka sekunda odlučuje.
+
+Tokom zadatka merilo se Vaše vreme reagovanja, način na koji ste pomerali miš i brzina kojom ste prepoznavali cilj. Sve te informacije zajedno pomažu istraživačima da bolje razumeju kako se odvijaju procesi pažnje i odlučivanja.<br /><br />
             <button class="btn btn-primary btn-lg " (click)="goBack()"> Nazad</button>
+        </p>
+    </div>
+</div>
+
+<div *ngIf="!showInstructions && testEnded && !serbian" class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center bg-light shadow p-5 rounded" style="max-width: 700px;">
+        <h2 class="mb-4">Visual search test</h2>
+
+        <p class="lead mb-4">
+                      Thank you for your time!
+In the task you have just completed, you were asked to find the target and respond to it while distractions were present around it. Such tasks are used in the psychology of attention to study how people direct their focus and how difficult it is for them to ignore irrelevant information.
+
+What you may not know is that these tests are not used only in laboratories, but also in applied fields—for example, in the assessment of drivers, pilots, and people working in jobs where every second counts.
+
+During the task, your reaction time, the way you moved the mouse, and the speed with which you recognized the target were measured. All of this information together helps researchers better understand how attentional and decision-making processes unfold.<br /><br />
+            <button class="btn btn-primary btn-lg " (click)="goBack()">Go back</button>
         </p>
     </div>
 </div>

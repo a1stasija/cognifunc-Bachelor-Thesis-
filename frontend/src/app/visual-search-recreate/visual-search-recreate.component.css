@@ -1,0 +1,23 @@
+.test-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  grid-template-rows: repeat(5, 100px);
+  gap: 5px;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.grid-cell {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stimulus-img {
+  width: 70px;
+  height: 70px;
+}

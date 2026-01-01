@@ -9,7 +9,7 @@ export class ReadingController {
             res.status(400).json({ error: 'Missing required fields' });
         }
 
-        if(testName == 'consent' || testName == 'flankerInstructions' || testName == 'visualSearchInstructions'){
+        if(testName == 'consent' || testName == 'flankerInstructions' || testName == 'visualSearchInstructions' || testName == 'flankerEnd' || testName == 'visualEnd'){
             ReadingData.create({ sessionId, testName, events })
             .then(() => {
                 res.status(200).json({ message: 'OK' });

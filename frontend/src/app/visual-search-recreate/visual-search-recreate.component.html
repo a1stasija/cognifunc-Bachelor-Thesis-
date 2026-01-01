@@ -1,0 +1,24 @@
+<div class="container mt-4" *ngIf="!showReconstruction">
+  <h2>Rekonstrukcija Visual Search testa</h2>
+
+  <div class="mb-3">
+    <label>Session ID:</label>
+    <input [(ngModel)]="sessionId" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Iteracija:</label>
+    <input type="number" [(ngModel)]="iter" class="form-control" />
+  </div>
+
+  <button class="btn btn-primary" (click)="fetchData()">Rekonstruiši</button>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+</div>
+<div *ngIf="showReconstruction" class="test-grid-container">
+  <div class="test-grid">
+    <div *ngFor="let item of items" class="grid-cell">
+      <img *ngIf="item.isVisible" [src]="getImagePath(item)" class="stimulus-img" />
+    </div>
+  </div>
+</div>

@@ -11,67 +11,80 @@ export class VisualSearchTestMouseDataService {
   private tracking = false;
   private iter = 0;
   private isCorrect = false;
-  private reactionTime = 0;
   private isControl = false;
 
-  constructor(private transferService: VisualSearchDataTransferService) { }
+  private mouseX: number = 0;
+  private mouseY: number = 0;
+  private intervalId: any = null;
+  private stamp: number = 0;
 
-  private track = (e: MouseEvent) => {
-    const x = e.clientX;
-    const y = e.clientY;
+  constructor(private transferService: VisualSearchDataTransferService) {}
 
-    this.data.push({
-      x,
-      y,
-      stamp: Date.now()
-    });
-
+  private pointerHandler = (e: PointerEvent) => {
+    this.mouseX = e.clientX;
+    this.mouseY = e.clientY;
+    this.stamp = e.timeStamp;
   };
 
-  startTracking(i: number, c: boolean) {
+  startTracking(i: number, c: boolean, startX: number, startY: number) {
     this.clear();
+
+    this.mouseX = startX;
+    this.mouseY = startY;
+
     if (!this.tracking) {
-      document.addEventListener('mousemove', this.track);
       this.tracking = true;
       this.iter = i;
       this.isControl = c;
+
+      // Prati poziciju pokazivača
+      document.addEventListener('pointermove', this.pointerHandler, { passive: true });
+
+      // Snima poziciju svakih 10ms tj 100Hz
+      this.intervalId = setInterval(() => {
+        this.data.push({
+          x: this.mouseX,
+          y: this.mouseY,
+          stamp: performance.now()
+        });
+      }, 10);
     }
   }
 
   stopTracking(res: boolean, rt: number) {
     if (this.tracking) {
-      document.removeEventListener('mousemove', this.track);
       this.tracking = false;
-      const movements = [...this.data]; // kopija da ne gubimo referencu
+
+      document.removeEventListener('pointermove', this.pointerHandler);
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+
+      const movements = [...this.data];
       const sessionId = localStorage.getItem('sessionId');
       this.isCorrect = res;
-      this.reactionTime = rt;
 
       if (!sessionId) {
         console.error('[MouseTracker] Nema sessionId u localStorage!');
         return;
       }
 
-      console.log(`[MouseTracker] Podaci poslati za visualSearch test, iter: ${this.iter}`);
-      console.log(`[MouseTracker] Podaci poslati za visualSearch test, isCorrect: ${this.isCorrect}`);
-      console.log(`[MouseTracker] Podaci poslati za visualSearch test, isControl: ${this.isControl}`);
-      console.log(`[MouseTracker] Podaci poslati za visualSearch test, reactionTime: ${this.reactionTime}`);
-
-      this.transferService.sendMouseData(this.iter,this.isCorrect, this.isControl, this.reactionTime, movements, sessionId).subscribe({
-        next: () => console.log(`[MouseTracker] Podaci poslati za flanker test, iteraciju: ${this.iter}`),
+      this.transferService.sendMouseData(
+        this.iter,
+        this.isCorrect,
+        this.isControl,
+        movements,
+        sessionId
+      ).subscribe({
+        next: () => console.log(`[MouseTracker] Podaci poslati za visual search test, iteracija: ${this.iter}`),
         error: (err) => console.error('[MouseTracker] Greška pri slanju:', err)
       });
-
     }
   }
+
   clear() {
     this.data = [];
     this.iter = 0;
     this.isCorrect = false;
-    this.reactionTime = 0;
     this.isControl = false;
-    //this.tracking = false;
   }
-
-
 }

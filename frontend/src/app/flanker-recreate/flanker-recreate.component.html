@@ -1,0 +1,32 @@
+<div class="container mt-4" *ngIf="!showResults">
+  <h2>Rekonstrukcija Flanker testa</h2>
+
+  <div class="mb-3">
+    <label>Session ID:</label>
+    <input [(ngModel)]="sessionId" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Iteracija:</label>
+    <input type="number" [(ngModel)]="trialIndex" class="form-control" />
+  </div>
+
+  <button class="btn btn-primary" (click)="fetchData()">Rekonstruiši</button>
+
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+</div>
+<div *ngIf="showResults" class="position-relative vh-100 d-flex flex-column justify-content-center align-items-center">
+
+    <!-- Strelice tačno u centru ekrana -->
+       <div class="mb-4" style="font-size: 100px;  letter-spacing: 30px;">
+                <span *ngFor="let s of stimulus"> {{s === 'left' ? '<' :  '>' }} </span>
+            </div>
+
+    <br/><br/>
+
+    <!-- Dugmad fiksirana ispod strelica, ali sa pomakom -->
+    <div class="d-flex justify-content-center mt-5 position-relative" style="width: 100%; max-width: 1000px;">
+      <button class="btn btn-danger btn-lg px-5 position-absolute" style="height: 60px; width: 150px; left: 10%;"></button>
+      <button class="btn btn-danger btn-lg px-5 position-absolute" style="height: 60px; width: 150px; right: 10%;"></button>
+    </div>
+</div>

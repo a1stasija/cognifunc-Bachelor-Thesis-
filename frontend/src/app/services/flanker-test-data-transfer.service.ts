@@ -11,11 +11,11 @@ export class FlankerTestDataTransferService {
 
   constructor(private http: HttpClient) {}
 
-  sendMouseData(iteration: number, isCorrect: boolean, reactionTime: number, events: ReadingMouseData[], sessionId: string ): Observable<any> {
+  sendMouseData(iteration: number, isCorrect: boolean, isCongruent:boolean, events: ReadingMouseData[], sessionId: string ): Observable<any> {
     const payload = {
       iteration,
       isCorrect,
-      reactionTime,
+      isCongruent,
       events,
       sessionId
     };

@@ -12,7 +12,7 @@ let FlankerData = new Schema({
   sessionId: { type: String, required: true },
   iteration: {type: Number, required: true},
   isCorrect: { type: Boolean, required: true},
-  reactionTime: {type: Number, required:true},
+  isCongruent: {type: Boolean, required:true},
   timestamp: { type: Date, default: Date.now },
   events: [readingEventSchema]
 })
