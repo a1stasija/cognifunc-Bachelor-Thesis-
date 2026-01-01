@@ -1,3 +1,26 @@
 backend/node_modules/*
 frontend/node_modules/*
 frontend/.angular/cache/*
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Build outputs
+frontend/dist/
+backend/dist/
+
+# Logs
+*.log
+
+# Env
+.env
+.env.*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
